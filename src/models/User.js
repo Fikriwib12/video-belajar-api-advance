@@ -12,6 +12,7 @@ const User = sequelize.define(
     avatar: { type: DataTypes.STRING },
     role: { type: DataTypes.STRING },
     email_verified_at: { type: DataTypes.DATE },
+    verification_token: { type: DataTypes.STRING },
     deleted_at: { type: DataTypes.DATE },
   },
   {

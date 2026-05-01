@@ -1,9 +1,22 @@
+const { Op } = require("sequelize");
 const Kelas = require("../models/Kelas");
 const KategoriKelas = require("../models/KategoriKelas");
 
 exports.getAll = async (req, res) => {
   try {
+    const { search, kategori_id, bahasa, sort = "created_at", order = "DESC" } = req.query;
+
+    const where = {};
+    if (search) where.judul = { [Op.like]: `%${search}%` };
+    if (kategori_id) where.kategori_id = kategori_id;
+    if (bahasa) where.bahasa = bahasa;
+
+    const allowedSort = ["judul", "harga", "bahasa", "created_at"];
+    const sortField = allowedSort.includes(sort) ? sort : "created_at";
+    const sortOrder = order.toUpperCase() === "ASC" ? "ASC" : "DESC";
+
     const kelas = await Kelas.findAll({
+      where,
       include: [
         {
           model: KategoriKelas,
@@ -11,6 +24,7 @@ exports.getAll = async (req, res) => {
           attributes: ["id", "name", "slug"],
         },
       ],
+      order: [[sortField, sortOrder]],
     });
 
     return res.status(200).json({

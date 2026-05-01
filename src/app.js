@@ -4,6 +4,7 @@ const app = express();
 const errorHandler = require("./middleware/errorHandler");
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 const authRoutes = require("./routes/authRoutes");
 const kategoriKelasRoutes = require("./routes/kategoriKelasRoutes");
@@ -17,6 +18,7 @@ const kelasSayaRoutes = require("./routes/kelasSayaRoutes");
 const kelasTutorRoutes = require("./routes/kelasTutorRoutes");
 const pretestRoutes = require("./routes/pretestRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/kategori-kelas", kategoriKelasRoutes);
@@ -30,6 +32,7 @@ app.use("/api/kelas-saya", kelasSayaRoutes);
 app.use("/api/kelas-tutor", kelasTutorRoutes);
 app.use("/api/pretest", pretestRoutes);
 app.use("/api/review", reviewRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.use(errorHandler);
 
